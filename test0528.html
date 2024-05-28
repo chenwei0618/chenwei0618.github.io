@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div {
+            position: absolute;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            animation-name: oxxo;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes oxxo {
+            0% {
+                top: 0%;
+                left: 50%;
+                background-color: black;
+                transform: rotate(0deg);
+            }
+            25% {
+                top: 50%;
+                left: calc(100% - 300px);
+                width: 300px;
+            }
+            50% {
+                top: calc(100% - 75px);
+                left: 50%;
+                width: 50px;
+                transform: rotate(360deg);
+            }
+            75% {
+                top: 50%;
+                left: 0%;
+                width: 300px;
+                background-color: #0a53be;
+            }
+            100% {
+                top: 0%;
+                left: 50%;
+                height: 100px;
+            }
+
+        }
+    </style>
+</head>
+<div></div>
+<body>
+
+</body>
+</html>
