@@ -21,18 +21,32 @@
     }
   }
   /*滑鼠動態*/
-  let cursor = document.getElementById("myCursor");
-  let circle = document.getElementById("circle");
+  document.addEventListener('mousemove', (event) => {
+    const { clientX: x, clientY: y } = event;
 
-  window.addEventListener("mousemove",function(e){
-    let x = e.clientX;
-    let y = e.clientY;
-    cursor.style.left = x-27+"px";
-    cursor.style.top = y-27+"px";
-    circle.style.left = x-17+"px";
-    circle.style.top = y-17+"px";
+    // Create a new circle element
+    const circle = document.createElement('div');
+    circle.classList.add('circle');
+    circle.style.left = `${x - 17}px`; // Center the circle around the cursor
+    circle.style.top = `${y - 17}px`;
 
-  })
+    document.body.appendChild(circle);
+
+    // Reduce the size and opacity of the circle in 5 steps
+    let step = 0;
+    const shrinkInterval = setInterval(() => {
+      step++;
+      circle.style.transform = `scale(${1 - step * 0.2})`;
+      circle.style.opacity = `${1 - step * 0.2}`;
+
+      if (step >= 5) {
+        clearInterval(shrinkInterval);
+        circle.remove();
+      }
+    }, 100); // 0.1 seconds per step
+  });
+
+
 
   /**
    * Easy event listener function
