@@ -24,11 +24,46 @@
   document.addEventListener('mousemove', (event) => {
     const { clientX: x, clientY: y } = event;
 
+    // Define colors for the color cycle (Gradient colors)
+    const colors = [
+      [255, 0, 0], // Red
+      [255, 165, 0], // Orange
+      [255, 255, 0], // Yellow
+      [0, 128, 0], // Green
+      [0, 0, 255], // Blue
+      [75, 0, 130], // Indigo
+      [238, 130, 238] // Violet
+    ];
+
+    // Helper function to interpolate between two colors
+    function lerpColor(color1, color2, t) {
+      return [
+        Math.round(color1[0] + (color2[0] - color1[0]) * t),
+        Math.round(color1[1] + (color2[1] - color1[1]) * t),
+        Math.round(color1[2] + (color2[2] - color1[2]) * t)
+      ];
+    }
+
+    // Helper function to convert RGB array to string
+    function rgbToString(rgb) {
+      return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+    }
+
+    // Calculate the color gradient index based on the current time
+    const time = Date.now() / 200; // Scale time down for 1 second full cycle
+    const colorIndex = Math.floor(time) % colors.length;
+    const nextColorIndex = (colorIndex + 1) % colors.length;
+    const t = time - Math.floor(time);
+
+    const currentColor = lerpColor(colors[colorIndex], colors[nextColorIndex], t);
+
     // Create a new circle element
     const circle = document.createElement('div');
     circle.classList.add('circle');
     circle.style.left = `${x - 17}px`; // Center the circle around the cursor
     circle.style.top = `${y - 17}px`;
+    circle.style.backgroundColor = rgbToString(currentColor);
+    circle.style.opacity = '0.3'; // Set initial opacity to 30%
 
     document.body.appendChild(circle);
 
@@ -37,7 +72,7 @@
     const shrinkInterval = setInterval(() => {
       step++;
       circle.style.transform = `scale(${1 - step * 0.2})`;
-      circle.style.opacity = `${1 - step * 0.2}`;
+      circle.style.opacity = `${0.3 * (1 - step * 0.2)}`; // Reduce opacity gradually
 
       if (step >= 5) {
         clearInterval(shrinkInterval);
@@ -45,6 +80,12 @@
       }
     }, 100); // 0.1 seconds per step
   });
+
+
+
+
+
+
 
 
 
