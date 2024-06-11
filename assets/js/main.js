@@ -21,30 +21,47 @@
     }
   }
   /*滑鼠動態*/
-  document.addEventListener('mousemove', (event) => {
-    const { clientX: x, clientY: y } = event;
+  // 取得元素
+  const cursor = document.getElementById("myCursor");
+  const circle = document.getElementById("circle");
 
-    // Create a new circle element
-    const circle = document.createElement('div');
-    circle.classList.add('circle');
-    circle.style.left = `${x - 17}px`; // Center the circle around the cursor
-    circle.style.top = `${y - 17}px`;
+// 監聽滑鼠移動事件
+  window.addEventListener("mousemove", function (e) {
+    const x = e.clientX;
+    const y = e.clientY;
 
-    document.body.appendChild(circle);
+    // 每0.2秒生成一次元素
+    const interval = setInterval(() => {
+      createElement(x, y, cursor, 27);
+      createElement(x, y, circle, 17);
+    }, 200);
 
-    // Reduce the size and opacity of the circle in 5 steps
-    let step = 0;
-    const shrinkInterval = setInterval(() => {
-      step++;
-      circle.style.transform = `scale(${1 - step * 0.2})`;
-      circle.style.opacity = `${1 - step * 0.2}`;
-
-      if (step >= 5) {
-        clearInterval(shrinkInterval);
-        circle.remove();
-      }
-    }, 100); // 0.1 seconds per step
+    // 停止生成元素
+    setTimeout(() => clearInterval(interval), 200);
   });
+
+  function createElement(x, y, template, offset) {
+    // 創建新的元素
+    const newElement = template.cloneNode();
+    document.body.appendChild(newElement);
+
+    // 設定初始位置和大小
+    newElement.style.left = `${x - offset}px`;
+    newElement.style.top = `${y - offset}px`;
+    newElement.style.position = 'absolute';
+
+    // 開始縮小動畫
+    let size = 1;
+    const shrinkInterval = setInterval(() => {
+      size -= 0.2;
+      newElement.style.transform = `scale(${size})`;
+      if (size <= 0) {
+        clearInterval(shrinkInterval);
+        newElement.remove();
+      }
+    }, 100);
+  }
+
 
 
 
