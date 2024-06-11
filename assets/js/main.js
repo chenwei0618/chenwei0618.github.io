@@ -27,40 +27,19 @@
 
 // 監聽滑鼠移動事件
   window.addEventListener("mousemove", function (e) {
+    // 取得滑鼠座標
     const x = e.clientX;
     const y = e.clientY;
 
-    // 每0.2秒生成一次元素
-    const interval = setInterval(() => {
-      createElement(x, y, cursor, 27);
-      createElement(x, y, circle, 17);
-    }, 200);
+    // 設定cursor位置
+    cursor.style.left = `${x - 27}px`;
+    cursor.style.top = `${y - 27}px`;
 
-    // 停止生成元素
-    setTimeout(() => clearInterval(interval), 200);
+    // 設定circle位置
+    circle.style.left = `${x - 17}px`;
+    circle.style.top = `${y - 17}px`;
   });
 
-  function createElement(x, y, template, offset) {
-    // 創建新的元素
-    const newElement = template.cloneNode();
-    document.body.appendChild(newElement);
-
-    // 設定初始位置和大小
-    newElement.style.left = `${x - offset}px`;
-    newElement.style.top = `${y - offset}px`;
-    newElement.style.position = 'absolute';
-
-    // 開始縮小動畫
-    let size = 1;
-    const shrinkInterval = setInterval(() => {
-      size -= 0.2;
-      newElement.style.transform = `scale(${size})`;
-      if (size <= 0) {
-        clearInterval(shrinkInterval);
-        newElement.remove();
-      }
-    }, 100);
-  }
 
 
 
